@@ -16,6 +16,7 @@ git clone https://github.com/LittleJolin/scPanGC.git
 cd scPanGC
 # Install the package and its dependencies
 pip install .
+```
 
 # Quick Start
 import scanpy as sc
