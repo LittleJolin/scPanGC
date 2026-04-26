@@ -17,7 +17,7 @@ cd scPanGC
 # Install the package and its dependencies
 pip install .
 
-## Quick Start
+# Quick Start
 import scanpy as sc
 import scPanGC as gc
 
