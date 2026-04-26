@@ -22,12 +22,12 @@ pip install .
 import scanpy as sc
 import scPanGC as gc
 
-# 1. Load your global raw AnnData object (with metadata)
-# Ensure metadata includes 'Celltype_new', 'Disease2', and 'Tissue1'
+## 1. Load your global raw AnnData object (with metadata)
+### Ensure metadata includes 'Celltype_new', 'Disease2', and 'Tissue1'
 adata_raw = sc.read_h5ad("path/to/your_raw_data.h5ad")
 
-# 2. Extract Consensus DEGs
-# Strictly compares Disease vs HC within the same tissue and cell type
+## 2. Extract Consensus DEGs
+### Strictly compares Disease vs HC within the same tissue and cell type
 deg_set = gc.get_consensus_degs_from_raw(
     adata_raw, 
     out_dir="./results", 
@@ -36,15 +36,15 @@ deg_set = gc.get_consensus_degs_from_raw(
     pval_thresh=0.05
 )
 
-# 3. Construct MetaCells for Noise Reduction
-# Divides data into granular homologous subsets before building metacells
+## 3. Construct MetaCells for Noise Reduction
+### Divides data into granular homologous subsets before building metacells
 adata_mc = gc.run_metacell_pipeline(
     adata_raw, 
     output_path="./results/metacell_global.h5ad"
 )
 
-# 4. Compute Gene Clusters (GCs)
-# Calculates expression shifts and performs Ward's hierarchical clustering
+## 4. Compute Gene Clusters (GCs)
+### Calculates expression shifts and performs Ward's hierarchical clustering
 logfc_matrix, gc_modules = gc.compute_gc_modules(
     adata_mc, 
     deg_list=deg_set, 
