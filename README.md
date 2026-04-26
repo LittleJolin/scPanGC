@@ -55,3 +55,60 @@ logfc_matrix, gc_modules = gc.compute_gc_modules(
 
 print("Pipeline completed successfully!")
 ```
+
+## One-step API
+
+```python
+import scanpy as sc
+import scPanGC as gc
+
+adata_raw = sc.read_h5ad("path/to/your_raw_data.h5ad")
+result = gc.run_pipeline(adata_raw, out_dir="./results")
+
+deg_list = result["deg_list"]
+gc_modules = result["gc_modules"]
+```
+
+## Command line
+
+After installation, run the full workflow from a terminal:
+
+```bash
+scpangc path/to/your_raw_data.h5ad --out-dir results
+```
+
+## Development with uv
+
+Create and sync a local development environment:
+
+```bash
+uv python install 3.11 --install-dir .uv-python
+uv sync
+```
+
+Run lightweight checks:
+
+```bash
+uv run python -m py_compile scPanGC/*.py
+uv run pytest
+```
+
+Run the CLI from the uv environment:
+
+```bash
+uv run scpangc path/to/your_raw_data.h5ad --out-dir results
+```
+
+## Required metadata
+
+The raw AnnData object must contain these `obs` columns:
+
+* `Celltype_new`
+* `Disease2`
+* `Tissue1`
+
+The metacell AnnData object used for GC extraction must contain:
+
+* `Celltype3`
+* `Disease`
+* `Tissue`
