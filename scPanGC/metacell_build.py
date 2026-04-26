@@ -28,6 +28,15 @@ def run_metacell_pipeline(adata, output_path):
                     continue
                 
                 print(f"Processing MetaCell for: {names_tmp} (n_obs={adata_tmp3.n_obs})")
+                # ========================================================
+                # 🚀 新增：补齐 Metacells 强制要求的基因掩码 (Masks)
+                # ========================================================
+                for required_mask in ['lateral_gene', 'noisy_gene']:
+                    if required_mask not in adata_tmp3.var.columns:
+                        adata_tmp3.var[required_mask] = False
+                # ========================================================
+
+                # 继续执行后续 MetaCell 流程
                 mc.pl.divide_and_conquer_pipeline(adata_tmp3, target_metacell_size=50, random_seed=123456)
                 
                 # 【此处已修复】: 补充了新版 metacells 强制要求的 random_seed 参数
