@@ -19,6 +19,7 @@ pip install .
 ```
 
 # Quick Start
+```python
 import scanpy as sc
 import scPanGC as gc
 
@@ -53,3 +54,4 @@ logfc_matrix, gc_modules = gc.compute_gc_modules(
 )
 
 print("Pipeline completed successfully!")
+```
