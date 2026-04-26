@@ -30,7 +30,7 @@ adata_raw = sc.read_h5ad("path/to/your_raw_data.h5ad")
 deg_set = gc.get_consensus_degs_from_raw(
     adata_raw, 
     out_dir="./results", 
-    min_cells=20, 
+    min_cells=3, 
     logfc_thresh=1.0, 
     pval_thresh=0.05
 )
