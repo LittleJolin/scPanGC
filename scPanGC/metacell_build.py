@@ -4,7 +4,7 @@ import metacells as mc
 
 def run_metacell_pipeline(adata, output_path):
     """
-    原始 AnnData 数据，在同源组织背景下执行 MetaCell 降噪聚合。
+    接收原始 AnnData 数据，在同源组织背景下执行 MetaCell 降噪聚合。
     """
     print("\nStarting MetaCell construction...")
     celltypes = adata.obs['Celltype_new'].dropna().unique()
@@ -29,7 +29,9 @@ def run_metacell_pipeline(adata, output_path):
                 
                 print(f"Processing MetaCell for: {names_tmp} (n_obs={adata_tmp3.n_obs})")
                 mc.pl.divide_and_conquer_pipeline(adata_tmp3, target_metacell_size=50, random_seed=123456)
-                metacells = mc.pl.collect_metacells(adata_tmp3, name=names_tmp+'.metacells')
+                
+                # 【此处已修复】: 补充了新版 metacells 强制要求的 random_seed 参数
+                metacells = mc.pl.collect_metacells(adata_tmp3, name=names_tmp+'.metacells', random_seed=123456)
                 
                 try:
                     mc.pl.compute_umap_by_features(metacells, max_top_feature_genes=1000, min_dist=2.0, random_seed=123456)
