@@ -62,8 +62,25 @@ def run_metacell_pipeline(adata, output_path):
     if len(metacell_obj_list) == 0:
         raise ValueError("No metacells were generated.")
         
-    print(f"Concatenating {len(metacell_obj_list)} metacell chunks into a global atlas...")
+
+import os # 确保文件开头或者这里引入了 os 模块
+
+    if len(metacell_obj_list) == 0:
+        raise ValueError("No metacells were generated. Please check your data quality.")
+        
+    print(f"\nConcatenating {len(metacell_obj_list)} metacell chunks into a global atlas...")
     adata_metacell_global = ad.concat(metacell_obj_list, join="inner")
+    
+    # 🚀 修复1：强制让所有的元细胞拥有唯一的 barcode 名字 (避免串号)
+    adata_metacell_global.obs_names_make_unique()
+    
+    # 🚀 修复2：自动检查并创建输出文件夹，防止 FileNotFoundError
+    out_dir = os.path.dirname(output_path)
+    if out_dir: # 如果路径包含文件夹层级
+        os.makedirs(out_dir, exist_ok=True)
+        
+    # 安全保存
     adata_metacell_global.write_h5ad(output_path)
+    print(f"Global Metacell construction completed. Saved to {output_path}")
     
     return adata_metacell_global
