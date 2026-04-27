@@ -1,5 +1,5 @@
-RAW_OBS_COLUMNS = ("Celltype_new", "Disease2", "Tissue1")
-METACELL_OBS_COLUMNS = ("Celltype3", "Disease", "Tissue")
+RAW_OBS_COLUMNS = ("Celltype", "Disease", "Tissue")
+METACELL_OBS_COLUMNS = ("Celltype", "Disease", "Tissue")
 
 
 def validate_obs_columns(adata, columns, context="adata"):

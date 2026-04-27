@@ -24,31 +24,31 @@ def get_consensus_degs_from_raw(
     validate_obs_columns(adata_raw, RAW_OBS_COLUMNS, context="adata_raw")
     logger.info("Starting differential expression analysis on raw single-cell matrix.")
 
-    celltypes = adata_raw.obs["Celltype_new"].dropna().unique()
-    tissues = adata_raw.obs["Tissue1"].dropna().unique()
-    diseases = [disease for disease in adata_raw.obs["Disease2"].dropna().unique() if disease != control_label]
+    celltypes = adata_raw.obs["Celltype"].dropna().unique()
+    tissues = adata_raw.obs["Tissue"].dropna().unique()
+    diseases = [disease for disease in adata_raw.obs["Disease"].dropna().unique() if disease != control_label]
 
     all_deg_list = []
 
     for celltype in celltypes:
-        adata_ct = adata_raw[adata_raw.obs["Celltype_new"] == celltype]
+        adata_ct = adata_raw[adata_raw.obs["Celltype"] == celltype]
         for tissue in tissues:
-            adata_ct_tissue = adata_ct[adata_ct.obs["Tissue1"] == tissue]
-            cells_control = adata_ct_tissue[adata_ct_tissue.obs["Disease2"] == control_label].n_obs
+            adata_ct_tissue = adata_ct[adata_ct.obs["Tissue"] == tissue]
+            cells_control = adata_ct_tissue[adata_ct_tissue.obs["Disease"] == control_label].n_obs
 
             if cells_control < min_cells:
                 continue
 
             for disease in diseases:
-                cells_disease = adata_ct_tissue[adata_ct_tissue.obs["Disease2"] == disease].n_obs
+                cells_disease = adata_ct_tissue[adata_ct_tissue.obs["Disease"] == disease].n_obs
                 if cells_disease >= min_cells:
                     adata_test = adata_ct_tissue[
-                        adata_ct_tissue.obs["Disease2"].isin([disease, control_label])
+                        adata_ct_tissue.obs["Disease"].isin([disease, control_label])
                     ].copy()
                     try:
                         sc.tl.rank_genes_groups(
                             adata_test,
-                            groupby="Disease2",
+                            groupby="Disease",
                             groups=[disease],
                             reference=control_label,
                             method="wilcoxon",

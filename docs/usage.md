@@ -20,5 +20,5 @@ scpangc path/to/your_raw_data.h5ad --out-dir results
 
 ## Input metadata
 
-Raw input requires `Celltype_new`, `Disease2`, and `Tissue1` in `adata.obs`.
-Gene-cluster extraction from a metacell object requires `Celltype3`, `Disease`, and `Tissue`.
+Raw input requires `Celltype`, `Disease`, and `Tissue` in `adata.obs`.
+Gene-cluster extraction from a metacell object requires `Celltype`, `Disease`, and `Tissue`.

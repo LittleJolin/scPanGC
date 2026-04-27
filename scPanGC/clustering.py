@@ -37,7 +37,7 @@ def compute_gc_modules(
     adata_mc.obs_names_make_unique()
 
     adata_mc.obs["C-D-T"] = (
-        adata_mc.obs["Celltype3"].astype(str)
+        adata_mc.obs["Celltype"].astype(str)
         + "-"
         + adata_mc.obs["Disease"].astype(str)
         + "-"

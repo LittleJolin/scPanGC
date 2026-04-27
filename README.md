@@ -24,7 +24,7 @@ import scanpy as sc
 import scPanGC as gc
 
 ## 1. Load your global raw AnnData object (with metadata)
-### Ensure metadata includes 'Celltype_new', 'Disease2', and 'Tissue1'
+### Ensure metadata includes 'Celltype', 'Disease', and 'Tissue'
 adata_raw = sc.read_h5ad("path/to/your_raw_data.h5ad")
 
 ## 2. Extract Consensus DEGs
@@ -103,12 +103,12 @@ uv run scpangc path/to/your_raw_data.h5ad --out-dir results
 
 The raw AnnData object must contain these `obs` columns:
 
-* `Celltype_new`
-* `Disease2`
-* `Tissue1`
+* `Celltype`
+* `Disease`
+* `Tissue`
 
 The metacell AnnData object used for GC extraction must contain:
 
-* `Celltype3`
+* `Celltype`
 * `Disease`
 * `Tissue`

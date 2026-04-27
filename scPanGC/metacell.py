@@ -30,20 +30,20 @@ def run_metacell_pipeline(
     validate_obs_columns(adata, RAW_OBS_COLUMNS, context="adata")
 
     logger.info("Starting metacell construction.")
-    celltypes = adata.obs["Celltype_new"].dropna().unique()
-    diseases = adata.obs["Disease2"].dropna().unique()
-    tissues = adata.obs["Tissue1"].dropna().unique()
+    celltypes = adata.obs["Celltype"].dropna().unique()
+    diseases = adata.obs["Disease"].dropna().unique()
+    tissues = adata.obs["Tissue"].dropna().unique()
 
     metacell_obj_list = []
 
     for celltype in celltypes:
-        adata_celltype = adata[adata.obs["Celltype_new"] == celltype]
+        adata_celltype = adata[adata.obs["Celltype"] == celltype]
         for disease in diseases:
-            adata_disease = adata_celltype[adata_celltype.obs["Disease2"] == disease]
-            valid_tissues = [tissue for tissue in tissues if tissue in adata_disease.obs["Tissue1"].values]
+            adata_disease = adata_celltype[adata_celltype.obs["Disease"] == disease]
+            valid_tissues = [tissue for tissue in tissues if tissue in adata_disease.obs["Tissue"].values]
 
             for tissue in valid_tissues:
-                adata_subset = adata_disease[adata_disease.obs["Tissue1"] == tissue].copy()
+                adata_subset = adata_disease[adata_disease.obs["Tissue"] == tissue].copy()
                 subset_name = f"{celltype}-{disease}-{tissue}"
 
                 if adata_subset.n_obs <= config.min_cells:
@@ -80,10 +80,7 @@ def run_metacell_pipeline(
                 if "__name__" in metacells.uns:
                     del metacells.uns["__name__"]
 
-                metacells.obs["Celltype_new"] = celltype
-                metacells.obs["Disease2"] = disease
-                metacells.obs["Tissue1"] = tissue
-                metacells.obs["Celltype3"] = celltype
+                metacells.obs["Celltype"] = celltype
                 metacells.obs["Disease"] = disease
                 metacells.obs["Tissue"] = tissue
                 metacell_obj_list.append(metacells)

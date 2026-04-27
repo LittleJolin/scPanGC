@@ -10,13 +10,13 @@ class DummyAnnData:
 
 
 def test_validate_obs_columns_accepts_present_columns():
-    adata = DummyAnnData(["Celltype_new", "Disease2", "Tissue1"])
+    adata = DummyAnnData(["Celltype", "Disease", "Tissue"])
 
-    validate_obs_columns(adata, ["Celltype_new", "Disease2", "Tissue1"])
+    validate_obs_columns(adata, ["Celltype", "Disease", "Tissue"])
 
 
 def test_validate_obs_columns_reports_missing_columns():
-    adata = DummyAnnData(["Celltype_new"])
+    adata = DummyAnnData(["Celltype"])
 
-    with pytest.raises(ValueError, match="Disease2"):
-        validate_obs_columns(adata, ["Celltype_new", "Disease2"])
+    with pytest.raises(ValueError, match="Disease"):
+        validate_obs_columns(adata, ["Celltype", "Disease"])
